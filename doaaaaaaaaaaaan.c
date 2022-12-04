@@ -190,7 +190,7 @@ void main()
         printf("\t[4] In het\n");                   //xong
         printf("\t[5] Nhap du lieu tu file\n");     //xong
         printf("\t[6] Xuat du lieu ra file \n");    //xong
-        printf("\t[9] De thoat\n");
+        printf("\t[9] De thoat\n");                 //xong
         printf("\tNhap: ");
         scanf("%d",&seclect);
         
