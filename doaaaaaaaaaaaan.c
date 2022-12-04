@@ -1,15 +1,26 @@
 #include <stdio.h>
 
-//hello there
+
+// hello there
+
+
 
 
 //___________________________________________________________________________________________________________________    
 // kieu du lieu struct
+typedef struct date
+{
+    int Ngay;
+    int Thang;
+    int Nam;
+}date_t;
+
 
 typedef struct SV
 {
     char HvT[20];
     int MSSV;
+    date_t namsinh;
     char Nganh[25];
 
 }st_sv;
@@ -35,26 +46,49 @@ typedef struct Note
 }st_Note;
 
 //___________________________________________________________________________________________________________________    
-//input student input
+//input date
+date_t nhapnamsinh()
+{
+    date_t namsinh;
+    
+    printf("nhap ngay sinh: ");
+    scanf("%d",&namsinh.Ngay);
 
+    printf("nhap thang sinh: ");
+    scanf("%d",&namsinh.Thang);
+
+    printf("nhap nam: ");
+    scanf("%d",&namsinh.Nam);
+
+    return namsinh;
+    
+}
+
+//___________________________________________________________________________________________________________________    
+//input student input
 st_sv nhapdulieusv()
 {   
     st_sv sv_nhap;
 
+    //NHap Ho va Ten
     printf("Nhap ho va ten sinh vien: "); 
     scanf("%s",sv_nhap.HvT);
 
+    // Nhap MSSV
     printf("Nhap MSSV: "); 
     scanf("%d",&sv_nhap.MSSV);
-    
-    printf("Nhap ngaanh hoc: "); 
+
+    // Nhap Nganh hoc
+    printf("Nhap nganh hoc: "); 
     scanf("%s",sv_nhap.Nganh);
+
+    // Nhap nam sinh
+    sv_nhap.namsinh = nhapnamsinh();
 
     return sv_nhap;
 }
 //___________________________________________________________________________________________________________________    
 //      THEM SV VAO LIST
-
 st_Note * themNote()
 {
     st_Note *note_add;
@@ -69,6 +103,7 @@ st_Note * themNote()
 //      In SV
 void printnote(st_nH *head)
 {
+    int stt =1;
     st_Note *p;
     p = head->next;
     if(p == NULL)
@@ -80,13 +115,44 @@ void printnote(st_nH *head)
         printf("\n\t\tlist\n");
         while (p != NULL)
         {
-            printf("Ho&Ten\t: %s\t|\tMSSV\t: %d\t|\tNganh\t: %s\t\n",p->data_SV.HvT,p->data_SV.MSSV,p->data_SV.Nganh);
+            printf("%d\t|Ho&Ten\t: %s\t|\tMSSV\t: %d\t|\tNganh\t: %s|\tNgay sinh\t: %d/%d/%d\t\n",stt,p->data_SV.HvT,p->data_SV.MSSV,p->data_SV.Nganh,p->data_SV.namsinh.Ngay,p->data_SV.namsinh.Thang,p->data_SV.namsinh.Nam);
             p = p->next;
+            stt++;
         }
     }
     
 }
 
+//___________________________________________________________________________________________________________________    
+//                  GHI SINH VIEN
+void ghi_SV(st_nH * head)
+{
+    int a,b;
+    int c,d;
+
+    
+    st_Note * p;
+    
+    
+
+    p = head->next;
+    int stt = 1;
+    FILE *f = NULL;
+    fopen_s(&f,"SINHVIEN.csv","w");
+
+    fprintf(f,"%s,%s,%s,%s,%s,%s\n", "ht","MSSV","DD","MM","YYYY","NGH");
+    while (p != NULL)
+    {
+        fprintf(f,"%s,%d,%s,%d,%d,%d\n",p->data_SV.HvT,p->data_SV.MSSV,p->data_SV.Nganh,p->data_SV.namsinh.Ngay,p->data_SV.namsinh.Thang,p->data_SV.namsinh.Nam);
+        p = p->next;
+    }
+    fclose(f);
+    printf("Da XONG");
+    
+}
+
+//___________________________________________________________________________________________________________________    
+//                  MAIN
 void main()
 {
 
@@ -106,7 +172,8 @@ void main()
         printf("\t[2] De sua thong tin sinh\n");
         printf("\t[3] De xap sap sinh\n");
         printf("\t[4] In het\n");
-
+        printf("\t[5] Nhap du lieu tu file\n");
+        printf("\t[6] Xuat du lieu ra file\n");
         printf("\t[9] De thoat\n");
         printf("\tNhap: ");
         scanf("%d",&seclect);
@@ -147,7 +214,7 @@ void main()
             break;
 //___________________________________________________________________________________________________________________    
 // IN SV
-        case 3:
+        case 4:
             /* code */
             if (head->next == NULL)
             {
@@ -157,9 +224,26 @@ void main()
             {
                 printnote(head);
             }
-            break;
-
             break;    
+        case 5:
+            /* code */
+            
+            
+           
+            break;
+        case 6:
+            /* code */
+            FILE *f;
+            if (head->next == NULL)
+            {
+                printf("VUI LONG NHAP SINH VIEN");
+            }
+            else
+            {
+                ghi_SV(head);
+            }
+
+            break;
         case 9:
             seclect = 9;
             break;
