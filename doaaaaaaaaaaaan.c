@@ -3,7 +3,7 @@
 
 // hello there
 
-
+#define N 256
 
 
 //___________________________________________________________________________________________________________________    
@@ -103,7 +103,7 @@ st_Note * themNote()
 //      In SV
 void printnote(st_nH *head)
 {
-    int stt =1;
+    int stt = 1;
     st_Note *p;
     p = head->next;
     if(p == NULL)
@@ -139,8 +139,6 @@ void ghi_SV(st_nH * head)
     int stt = 1;
     FILE *f = NULL;
     fopen_s(&f,"SINHVIEN.csv","w");
-
-    fprintf(f,"%s,%s,%s,%s,%s,%s\n", "ht","MSSV","DD","MM","YYYY","NGH");
     while (p != NULL)
     {
         fprintf(f,"%s,%d,%s,%d,%d,%d\n",p->data_SV.HvT,p->data_SV.MSSV,p->data_SV.Nganh,p->data_SV.namsinh.Ngay,p->data_SV.namsinh.Thang,p->data_SV.namsinh.Nam);
@@ -152,16 +150,28 @@ void ghi_SV(st_nH * head)
 }
 
 //___________________________________________________________________________________________________________________    
+//      
+st_Note * themNotedoc(st_sv data)
+{
+    st_Note *note_add;
+    note_add = (st_Note*)malloc(sizeof(st_Note));
+    note_add->data_SV = data;
+    note_add->next = NULL;
+
+    return note_add;
+}
+
+//___________________________________________________________________________________________________________________    
 //                  MAIN
 void main()
 {
-
     st_Note *p_A, *p_B;
     st_nH *head;
     p_A = (st_Note*)malloc(sizeof(st_Note));
-    p_A->next =NULL;
+    p_A->next = NULL;
+    head = (st_nH*)malloc(sizeof(st_nH));
     head->next = p_A->next;
-
+    
     // display user
     int seclect = 99;
     while (seclect != 9) // neu seclect khac ba thi chay tiep
@@ -226,14 +236,54 @@ void main()
             }
             break;    
         case 5:
-            /* code */
+            st_sv sv;
+            char dichi[50];
+
+            printf("Nhap dia chi file.csv: ");
+            scanf("%s",dichi); 
             
-            
+            FILE *f;
+            f = fopen(dichi,"r");
+            if(f == NULL) 
+            {
+                printf("%s file not open!");
+            }
+            else
+            {
+
+                char line[N];
+
+
+
+                while ( fgets(line,N,f) !=NULL)
+                {
+                    sscanf(line,"%[^,],%d,%[^,],%d,%d,%d",sv.HvT, &sv.MSSV, sv.Nganh, &sv.namsinh.Ngay, &sv.namsinh.Thang, &sv.namsinh.Nam);
+                    if (head->next == NULL)
+                    {   
+                        printf("NHAP CLASS DAU TIEN\n");
+                        p_A = themNotedoc(sv);
+                        head->next = p_A;
+                    }
+                    else
+                    {   
+                        printf("NHAP CLASS TIEP THEO\n");
+                        p_B = themNotedoc(sv);
+                        // p_A next mang dia chi cua p_B
+                        p_A->next = p_B;
+                        // luu vi tri o next
+                        p_A = p_A->next;
+                        
+                    }
+                }
+                printf("DA XONG");
+            }
+            fclose(f);
+            //in ra
+            printnote(head);
            
             break;
         case 6:
             /* code */
-            FILE *f;
             if (head->next == NULL)
             {
                 printf("VUI LONG NHAP SINH VIEN");
