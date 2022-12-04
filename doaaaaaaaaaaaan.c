@@ -19,6 +19,7 @@ typedef struct date
 typedef struct SV
 {
     char HvT[20];
+    char gioitinh[10];
     int MSSV;
     date_t namsinh;
     char Nganh[25];
@@ -74,6 +75,10 @@ st_sv nhapdulieusv()
     printf("Nhap ho va ten sinh vien: "); 
     scanf("%s",sv_nhap.HvT);
 
+    //NHp gioi tinh
+    printf("Nhap gioi tinh "); 
+    scanf("%s",sv_nhap.gioitinh);
+
     // Nhap MSSV
     printf("Nhap MSSV: "); 
     scanf("%d",&sv_nhap.MSSV);
@@ -113,9 +118,10 @@ void printnote(st_nH *head)
     else
     {   
         printf("\n\t\tlist\n");
+        printf("stt\thovaten\t\t\tgioitinh\tMSSV\tNganh\t\tnamsinh\n");
         while (p != NULL)
         {
-            printf("%d\t|Ho&Ten\t: %s\t|\tMSSV\t: %d\t|\tNganh\t: %s|\tNgay sinh\t: %d/%d/%d\t\n",stt,p->data_SV.HvT,p->data_SV.MSSV,p->data_SV.Nganh,p->data_SV.namsinh.Ngay,p->data_SV.namsinh.Thang,p->data_SV.namsinh.Nam);
+            printf("%d\t%s\t\t\t%s\t\t%d\t%s\t\t%d/%d/%d\n",stt,p->data_SV.HvT,p->data_SV.gioitinh, p->data_SV.MSSV,p->data_SV.Nganh,p->data_SV.namsinh.Ngay,p->data_SV.namsinh.Thang,p->data_SV.namsinh.Nam);
             p = p->next;
             stt++;
         }
@@ -141,7 +147,7 @@ void ghi_SV(st_nH * head)
     fopen_s(&f,"SINHVIEN.csv","w");
     while (p != NULL)
     {
-        fprintf(f,"%s,%d,%s,%d,%d,%d\n",p->data_SV.HvT,p->data_SV.MSSV,p->data_SV.Nganh,p->data_SV.namsinh.Ngay,p->data_SV.namsinh.Thang,p->data_SV.namsinh.Nam);
+        fprintf(f,"%s,%s,%d,%s,%d,%d,%d\n",p->data_SV.HvT,p->data_SV.gioitinh,p->data_SV.MSSV,p->data_SV.Nganh,p->data_SV.namsinh.Ngay,p->data_SV.namsinh.Thang,p->data_SV.namsinh.Nam);
         p = p->next;
     }
     fclose(f);
@@ -177,13 +183,13 @@ void main()
     while (seclect != 9) // neu seclect khac ba thi chay tiep
     {
         printf("\n\t\t-- menu --\t\t\n");
-        printf("\t[0] De nhap sinh vien\n");
-        printf("\t[1] De xoa sinh vien\n");
-        printf("\t[2] De sua thong tin sinh\n");
-        printf("\t[3] De xap sap sinh\n");
-        printf("\t[4] In het\n");
-        printf("\t[5] Nhap du lieu tu file\n");
-        printf("\t[6] Xuat du lieu ra file\n");
+        printf("\t[0] De nhap sinh vien\n");        ///xong
+        printf("\t[1] De xoa sinh vien\n");         //chu
+        printf("\t[2] De sua thong tin sinh\n");    //chu
+        printf("\t[3] De xap sap sinh\n");          //chu
+        printf("\t[4] In het\n");                   //xong
+        printf("\t[5] Nhap du lieu tu file\n");     //xong
+        printf("\t[6] Xuat du lieu ra file \n");    //xong
         printf("\t[9] De thoat\n");
         printf("\tNhap: ");
         scanf("%d",&seclect);
@@ -222,6 +228,9 @@ void main()
             /* code */
             printf("hi 2");
             break;
+        case 3:
+            
+            break;
 //___________________________________________________________________________________________________________________    
 // IN SV
         case 4:
@@ -257,7 +266,7 @@ void main()
 
                 while ( fgets(line,N,f) !=NULL)
                 {
-                    sscanf(line,"%[^,],%d,%[^,],%d,%d,%d",sv.HvT, &sv.MSSV, sv.Nganh, &sv.namsinh.Ngay, &sv.namsinh.Thang, &sv.namsinh.Nam);
+                    sscanf(line,"%[^,],%[^,],%d,%[^,],%d,%d,%d",sv.HvT, sv.gioitinh, &sv.MSSV, sv.Nganh, &sv.namsinh.Ngay, &sv.namsinh.Thang, &sv.namsinh.Nam);
                     if (head->next == NULL)
                     {   
                         printf("NHAP CLASS DAU TIEN\n");
