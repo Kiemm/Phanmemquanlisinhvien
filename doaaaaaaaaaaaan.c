@@ -18,7 +18,7 @@ typedef struct date
 
 typedef struct SV
 {
-    char HvT[20];
+    char HvT[200];
     char gioitinh[10];
     int MSSV;
     date_t namsinh;
@@ -72,19 +72,20 @@ st_sv nhapdulieusv()
     st_sv sv_nhap;
 
     //NHap Ho va Ten
-    printf("Nhap ho va ten sinh vien: "); 
-    scanf("%s",sv_nhap.HvT);
+    printf("Nhap ho va ten sinh vien: ");
+    fflush(stdin); 
+    gets(sv_nhap.HvT);
 
     //NHp gioi tinh
-    printf("Nhap gioi tinh "); 
+    printf("\nNhap gioi tinh "); 
     scanf("%s",sv_nhap.gioitinh);
 
     // Nhap MSSV
-    printf("Nhap MSSV: "); 
+    printf("\nNhap MSSV: "); 
     scanf("%d",&sv_nhap.MSSV);
 
     // Nhap Nganh hoc
-    printf("Nhap nganh hoc: "); 
+    printf("\nNhap nganh hoc: "); 
     scanf("%s",sv_nhap.Nganh);
 
     // Nhap nam sinh
@@ -118,10 +119,10 @@ void printnote(st_nH *head)
     else
     {   
         printf("\n\t\tlist\n");
-        printf("stt\thovaten\t\t\tgioitinh\tMSSV\tNganh\t\tnamsinh\n");
+        printf("|stt\t|hovaten\t\t\t|gioitinh\t|MSSV\t\t|ttNganh\t\t|namsinh\n");
         while (p != NULL)
         {
-            printf("%d\t%s\t\t\t%s\t\t%d\t%s\t\t%d/%d/%d\n",stt,p->data_SV.HvT,p->data_SV.gioitinh, p->data_SV.MSSV,p->data_SV.Nganh,p->data_SV.namsinh.Ngay,p->data_SV.namsinh.Thang,p->data_SV.namsinh.Nam);
+            printf("|%d\t|%s\t\t\t|%s\t\t|%d\t\t|%s\t\t|%d/%d/%d\n",stt,p->data_SV.HvT,p->data_SV.gioitinh, p->data_SV.MSSV,p->data_SV.Nganh,p->data_SV.namsinh.Ngay,p->data_SV.namsinh.Thang,p->data_SV.namsinh.Nam);
             p = p->next;
             stt++;
         }
@@ -154,6 +155,44 @@ void ghi_SV(st_nH * head)
     printf("Da XONG");
     
 }
+//___________________________________________________________________________________________________________________    
+//       SAP XEP SINH VIEN
+void sortedInsert(st_Note ** sorted, st_Note* newnode)
+{
+   
+    if (*sorted == NULL || (*sorted)->data_SV.MSSV >= newnode->data_SV.MSSV) {
+        newnode->next = *sorted;
+        *sorted = newnode;
+    }
+    else {
+        st_Note* current = *sorted;
+
+        while (current->next != NULL
+               && current->next->data_SV.MSSV < newnode->data_SV.MSSV) {
+            current = current->next;
+        }
+        newnode->next = current->next;
+        current->next = newnode;
+    }
+}
+st_Note* sapxepsv(st_nH *head)
+{
+    st_Note * sorted = NULL;
+
+    st_Note * current;
+
+    current = head->next;
+    while (current != NULL) {
+ 
+        st_Note* next = current->next;
+ 
+        sortedInsert(&sorted, current);
+ 
+        current = next;
+    }
+
+    return sorted;
+}
 
 //___________________________________________________________________________________________________________________    
 //      
@@ -185,8 +224,8 @@ void main()
         printf("\n\t\t-- menu --\t\t\n");
         printf("\t[0] De nhap sinh vien\n");        ///xong
         printf("\t[1] De xoa sinh vien\n");         //chu
-        printf("\t[2] De sua thong tin sinh\n");    //chu
-        printf("\t[3] De xap sap sinh\n");          //chu
+        printf("\t[2] De sua thong tin sinh vien\n");//chu
+        printf("\t[3] De sap xep sinh vien\n");     //chu
         printf("\t[4] In het\n");                   //xong
         printf("\t[5] Nhap du lieu tu file\n");     //xong
         printf("\t[6] Xuat du lieu ra file \n");    //xong
@@ -228,7 +267,19 @@ void main()
             /* code */
             printf("hi 2");
             break;
+
+//___________________________________________________________________________________________________________________
+// SAP XEP SV
         case 3:
+            if (head->next == NULL)
+            {
+                printf("HIEN TAI CHUA CO SINH VIEN NAO");
+            }
+            else{
+                p_A = sapxepsv(head);
+                head->next = p_A;
+                printnote(head);
+            }
             
             break;
 //___________________________________________________________________________________________________________________    
@@ -248,7 +299,7 @@ void main()
             st_sv sv;
             char dichi[50];
 
-            printf("Nhap dia chi file.csv: ");
+            printf("Nhap dia chi file.csv: VD: C:\\\\Program Files\\\\Google\\\\SINHVIEN.csv\nNhap: ");
             scanf("%s",dichi); 
             
             FILE *f;
