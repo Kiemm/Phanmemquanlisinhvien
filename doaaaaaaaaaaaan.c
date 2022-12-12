@@ -195,7 +195,7 @@ st_Note* sapxepsv(st_nH *head)
 }
 
 //___________________________________________________________________________________________________________________    
-//      
+//      Doc note tu trong file
 st_Note * themNotedoc(st_sv data)
 {
     st_Note *note_add;
@@ -204,6 +204,43 @@ st_Note * themNotedoc(st_sv data)
     note_add->next = NULL;
 
     return note_add;
+}
+
+//___________________________________________________________________________________________________________________    
+//  Tim kiem
+void TIMKIEM(st_nH * head)
+{
+    st_Note * p;
+    p = head->next;
+    int stt = 1;
+
+    if(p == NULL)
+    {
+        printf(" List is Null\n");
+    }
+    else
+    {   
+        int a = 0;
+        int b = 0;
+        printf("Nhap MSSV can tim:");
+        scanf("%d",&a);
+
+        while (p != NULL)
+        {   
+            if(a == p->data_SV.MSSV)
+            {
+                b = 1;
+                printf("|%d\t|%s\t\t\t|%s\t\t|%d\t\t|%s\t\t|%d/%d/%d\n",stt,p->data_SV.HvT,p->data_SV.gioitinh, p->data_SV.MSSV,p->data_SV.Nganh,p->data_SV.namsinh.Ngay,p->data_SV.namsinh.Thang,p->data_SV.namsinh.Nam);
+            }
+            p = p->next;
+        }
+        
+        // neu khong tim thay SV
+        if (b != 1)
+        {
+            printf(" khong tim thay sinh vien");
+        }
+    }
 }
 
 //___________________________________________________________________________________________________________________    
@@ -362,11 +399,12 @@ void main()
             break;
                 
 //___________________________________________________________________________________________________________________    
-// 
-            case 7:
-                
+//          TImkiem
+        case 7:
+            TIMKIEM(head);                
             break;
-                
+//___________________________________________________________________________________________________________________    
+//          EXIT        
         case 9:
             seclect = 9;
             break;
