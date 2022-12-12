@@ -223,18 +223,18 @@ void main()
     {
         printf("\n\t\t-- menu --\t\t\n");
         printf("\t[0] De nhap sinh vien\n");        ///xong
-        printf("\t[1] De xoa sinh vien\n");         //chu
-        printf("\t[2] De sua thong tin sinh vien\n");//chu
-        printf("\t[3] De sap xep sinh vien\n");     //chu
+        printf("\t[1] De xoa sinh vien\n");         //chua
+        printf("\t[2] De sua thong tin sinh vien\n");//chua
+        printf("\t[3] De sap xep sinh vien\n");     //gan xong
         printf("\t[4] In het\n");                   //xong
         printf("\t[5] Nhap du lieu tu file\n");     //xong
         printf("\t[6] Xuat du lieu ra file \n");    //xong
+        printf("\t[7] Tim sinh vien\n");            //chua
         printf("\t[9] De thoat\n");                 //xong
         printf("\tNhap: ");
+        
         scanf("%d",&seclect);
         
-
-
         switch (seclect)
         {
 
