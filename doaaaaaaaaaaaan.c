@@ -95,14 +95,11 @@ st_sv nhapdulieusv()
 }
 //___________________________________________________________________________________________________________________    
 //      THEM SV VAO LIST
-st_Note * themNote()
+ void themNote(st_Note * note_add)
 {
-    st_Note *note_add;
     note_add = (st_Note*)malloc(sizeof(st_Note));
     note_add->data_SV = nhapdulieusv();
     note_add->next = NULL;
-
-    return note_add;
 }
 
 //___________________________________________________________________________________________________________________    
@@ -281,19 +278,18 @@ void main()
             if (head->next == NULL)
             {   
                 printf("NHAP CLASS DAU TIEN\n");
-                p_A = themNote();
+                themNote(p_A);
                 head->next = p_A;
             }
             else
             {   
                 printf("NHAP CLASS TIEP THEO\n");
-                p_B = themNote();
+                themNote(p_B);
                 // p_A next mang dia chi cua p_B
                 p_A->next = p_B;
                 // luu vi tri o next
                 p_A = p_A->next;
             }
-            break;
             break;
         case 1:
             /* code */
