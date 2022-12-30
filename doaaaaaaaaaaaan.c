@@ -52,13 +52,15 @@ date_t nhapnamsinh()
 {
     date_t namsinh;
 
-    printf("nhap ngay sinh: ");
+    printf("\nNhap ngay/thang/nam sinh \n");
+
+    printf("Nhap ngay sinh: ");
     scanf("%d",&namsinh.Ngay);
 
-    printf("nhap thang sinh: ");
+    printf("Nhap thang sinh: ");
     scanf("%d",&namsinh.Thang);
 
-    printf("nhap nam: ");
+    printf("Nhap nam: ");
     scanf("%d",&namsinh.Nam);
 
     return namsinh;
@@ -131,7 +133,7 @@ void chinhsuasinhvien(st_nH * head)
 
     if(p == NULL)
     {
-        printf(" List is Null\n");
+        printf("VUI LONG NHAP SINH VIEN\n");
     }
     else
     {   
@@ -224,37 +226,39 @@ void chinhsuasinhvien(st_nH * head)
 //                  XOA SINH VIEN
 void XOASV(st_nH *head)
 {
-st_Note *p = head->next;
-int count = 0;
-int x = 0;
-scanf_s("%d",&x);
-while( p != NULL)
-{
-    if(p->data_SV.MSSV == x)
-        break;
-    else 
+    st_Note *p = head->next;
+    int count = 0;
+    int x = 0;
+    printf("Nhap MSSV: ");
+    scanf_s("%d",&x);
+    while( p != NULL)
     {
-        p = p->next;
-        count = count + 1;
+        if(p->data_SV.MSSV == x)
+            break;
+        else 
+        {
+            p = p->next;
+            count = count + 1;
+        }
     }
-}
-st_Note *q = head->next;
-if (count == 0)
-{
+    st_Note *q = head->next;
+    if (count == 0)
+    {
+        st_Note * temp = q->next;
+        head->next = head->next->next;
+        free(temp);
+    }
+    else
+    {
+        for(int i = 0; i < count - 1; i++)
+        {
+                q = q->next;
+        }
     st_Note * temp = q->next;
-    head->next = head->next->next;
+    q->next = q->next->next;
     free(temp);
 }
-else
-{
-    for(int i = 0; i < count - 1; i++)
-    {
-            q = q->next;
-    }
-st_Note * temp = q->next;
-q->next = q->next->next;
-free(temp);
-}
+
 }
 //___________________________________________________________________________________________________________________    
 //      In 1 SV
@@ -285,12 +289,12 @@ void printnote(st_nH *head)
     p = head->next;
     if(p == NULL)
     {
-        printf(" List is Null\n");
+        printf("VUI LONG NHAP SINH VIEN\n");
     }
     else
     {   
         printf("\n\t\tlist\n");
-        printf("|STT \t|HOVATEN\t\t|MSSV\t\t|GIOITINH NGANH \t|NAMSINH \n");
+        printf("|STT \t|HOVATEN\t\t|MSSV\t\t|GIOITINH |NGANH \t|NAMSINH \n");
         while (p != NULL)
         {
             printone(p,stt);
@@ -318,7 +322,7 @@ void ghi_SV(st_nH * head)
     }
     fclose(f);
 
-    printf("Da XONG");
+    printf("Complete !\n");
 }
 //___________________________________________________________________________________________________________________    
 //       SAP XEP SINH VIEN
@@ -356,6 +360,7 @@ st_Note* sapxepsv(st_nH *head)
         current = next;
     }
 
+    printf("Complete !\n");
     return sorted;
 }
 
@@ -381,7 +386,7 @@ void TIMKIEM(st_nH * head)
 
     if(p == NULL)
     {
-        printf(" List is Null\n");
+        printf("VUI LONG NHAP SINH VIEN\n");
     }
     else
     {   
@@ -416,9 +421,9 @@ void TIMKIEM(st_nH * head)
 void main()
 {
     st_Note *p_A, *p_B;
-    st_nH *head;
     p_A = (st_Note*)malloc(sizeof(st_Note));
     p_A->next = NULL;
+    st_nH *head;
     head = (st_nH*)malloc(sizeof(st_nH));
     head->next = p_A->next;
 
@@ -427,17 +432,18 @@ void main()
 
     while (seclect != 9) // neu seclect khac ba thi chay tiep
     {
-        printf("\n\t\t-- menu --\t\t\n");
-        printf("\t[0] De nhap sinh vien\n");            //xong
-        printf("\t[1] De xoa sinh vien\n");             //xong
-        printf("\t[2] De sua thong tin sinh vien\n");   //xong
-        printf("\t[3] De sap xep sinh vien\n");         //xong
-        printf("\t[4] In het\n");                       //xong
-        printf("\t[5] Nhap du lieu tu file\n");         //xong
-        printf("\t[6] Xuat du lieu ra file \n");        //xong
-        printf("\t[7] Tim sinh vien\n");                //xong
-        printf("\t[9] De thoat\n");                     //xong
-        printf("\tNhap: ");
+        printf("\n\nPHAN MEM QUAN LY SINH VIEN\n");
+        printf("DANH SACH CHUC NANG\n");
+        printf(" [0] De nhap sinh vien\n");        ///xong
+        printf(" [1] De xoa sinh vien\n");         //chua
+        printf(" [2] De sua thong tin sinh vien\n");//xong
+        printf(" [3] De sap xep sinh vien\n");     //xong
+        printf(" [4] In het\n");                   //xong
+        printf(" [5] Nhap du lieu tu file\n");     //xong
+        printf(" [6] Xuat du lieu ra file \n");    //xong
+        printf(" [7] Tim sinh vien\n");            //chua
+        printf(" [9] EXIT\n");                     //xong
+        printf("ENTER NUMBER: ");
         fflush(stdin);
         scanf("%d",&seclect);
 
@@ -447,15 +453,14 @@ void main()
 //___________________________________________________________________________________________________________________    
 // NHAP SV
         case 0:
+            printf("Nhap Sinh Vien:\n");
             if (head->next == NULL)
             {   
-                printf("NHAP CLASS DAU TIEN\n");
                 p_A = themNote();
                 head->next = p_A;
             }
             else
             {   
-                printf("NHAP CLASS TIEP THEO\n");
                 p_B = themNote();
                 // p_A next mang dia chi cua p_B
                 p_A->next = p_B;
@@ -466,11 +471,13 @@ void main()
         case 1:
             /* code */
             XOASV(head); 
+            
             break;
 
         case 2:
             /* code */
             chinhsuasinhvien(head);
+            
             break;
 
 //___________________________________________________________________________________________________________________    
@@ -494,7 +501,8 @@ void main()
             char dichi[50];
 
             printf("Nhap dia chi file.csv: VD: C:\\\\Program Files\\\\Google\\\\SINHVIEN.csv\nNhap: ");
-            scanf("%s",dichi); 
+            fflush(stdin);
+            gets(dichi);
 
             FILE *f;
             f = fopen(dichi,"r");
@@ -511,14 +519,12 @@ void main()
                     
                     if (head->next == NULL)
                     {   
-                        printf("NHAP CLASS DAU TIEN\n");
                         p_A = themNotedoc(sv);
                         head->next = p_A;
                         
                     }
                     else
                     {   
-                        printf("NHAP CLASS TIEP THEO\n");
                         p_B = themNotedoc(sv);
                         // p_A next mang dia chi cua p_B
                         p_A->next = p_B;
@@ -527,7 +533,7 @@ void main()
 
                     }
                 }
-                printf("DA XONG");
+                printf("Complete !\n");
             }
             fclose(f);
             //in ra
@@ -546,6 +552,7 @@ void main()
             else
             {
                 ghi_SV(head);
+                printf("Complete !\n");
             }
             break;
 
@@ -553,6 +560,7 @@ void main()
 //          TImkiem
         case 7:
             TIMKIEM(head);                
+
             break;
 //___________________________________________________________________________________________________________________    
 //          EXIT        
@@ -562,5 +570,7 @@ void main()
         default:
             break;
         }
+
+
     }
 }
